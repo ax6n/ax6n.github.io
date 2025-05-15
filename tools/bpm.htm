@@ -1,0 +1,123 @@
+<html>
+<head>
+<title>更好的简易BPM(Beats Per Minute)测试器</title>
+
+<script language="JavaScript">
+<!-- 
+var count = 0;
+var times = [];
+
+function ResetCount() {
+  count = 0;
+  times = [];
+  document.TAP_DISPLAY.T_AVG.value = "";
+  document.TAP_DISPLAY.T_TAP.value = "";
+  document.TAP_DISPLAY.T_RESET.blur();
+}
+
+function TapForBPM(e) {
+  document.TAP_DISPLAY.T_WAIT.blur();
+  timeSeconds = new Date;
+  msecs = timeSeconds.getTime();
+  
+  if (times.length > 0 && (msecs - times[times.length-1]) > 1000 * document.TAP_DISPLAY.T_WAIT.value) {
+    ResetCount();
+  }
+
+  if (count == 0) {
+    document.TAP_DISPLAY.T_AVG.value = "第一次敲击";
+    document.TAP_DISPLAY.T_TAP.value = "第一次敲击";
+    times.push(msecs);
+    count = 1;
+  } else {
+    times.push(msecs);
+    count++;
+    if (times.length >= 2) {
+      let sumXT = 0, sumX2 = 0;
+      const n = times.length;
+      const t0 = times[0];
+      for (let i = 0; i < n; i++) {
+        const x = i;
+        const t = times[i] - t0;
+        sumXT += x * t;
+        sumX2 += x * x;
+      }
+      
+      // k = sum(x_i * t_i) / sum(x_i^2)
+      const k = sumXT / sumX2;
+      const bpm = 60000 / k;
+      
+      document.TAP_DISPLAY.T_AVG.value = Math.round(bpm * 100) / 100;
+      document.TAP_DISPLAY.T_WHOLE.value = Math.round(bpm);
+    }
+    
+    document.TAP_DISPLAY.T_TAP.value = count;
+  }
+  return true;
+}
+
+document.onkeypress = TapForBPM;
+// -->
+</script>
+
+</head>
+
+<body bgcolor="#AABBCC">
+<center>
+
+<noscript>
+<p><table border=0 bgcolor="FFFF99" cellpadding=5><tr><td><font color="FF0000" size=+1><b>&nbsp;! Javascript must be enabled !&nbsp;</b></font></td></tr></table></p>
+</noscript>
+
+<p><b>更好的简易BPM(Beats Per Minute)测试器</b></p>
+
+<p>跟着节奏敲击键盘任意键开始测试 BPM
+<table border=0><tr>
+<form name="TAP_DISPLAY">
+<td align=center><table border=0 cellpadding=3 cellspacing=0 bgcolor="#666666"><tr>
+<td><table border=0 cellpadding=4 cellspacing=0 bgcolor="#CCCCCC"><tr>
+<td> </td>
+<td align=right><font color="#000000"><tt>原始 BPM</tt>
+<input readonly name="T_AVG" size=12></td>
+<td> </td>
+</tr><tr>
+<td> </td>
+<td align=right><font color="#000000"><tt>取整 BPM</tt>
+<input readonly name="T_WHOLE" size=12></td>
+<td> </td>
+</tr><tr>
+<td> </td>
+<td align=right><font color="#000000"><tt>敲击次数</tt>
+<input readonly name="T_TAP" size=12></td>
+<td> </td>
+</tr></table></td></tr></table></td>
+</tr><tr>
+<td align=center>
+停止敲击
+<select name="T_WAIT">
+  <option value="1">1</option>
+  <option value="2" SELECTED>2</option>
+  <option value="3">3</option>
+  <option value="4">4</option>
+  <option value="5">5</option>
+</select>
+秒后停止计时，或单击
+<input type="button" name="T_RESET" value="重置计时器" onclick="ResetCount()"></td>
+</form></tr>
+<tr><td>&nbsp;</td></tr>
+<tr><td align=center>
+在这里输入 &gt; <input name="T_FOCUS" size=2 maxLength=1> &lt; 以激活键盘</td>
+</tr></table>
+
+<font face="arial, helvetica" size="-2">
+<p>（使用文本框输入时，停止敲击 5 秒后停止计时）
+</center>
+
+<hr>
+<font size=-2>2025/5/10, Ax6N
+<br/>
+翻译&amp;修改自 <a href="https://www.all8.com/tools/bpm.htm">all8.com</a>
+<br/>
+使用了最小二乘法替代原版做法，收敛速度显著提升
+</body>
+</html>
